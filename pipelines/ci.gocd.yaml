@@ -1,0 +1,44 @@
+###
+#
+# require GoCD pre-configuration (modify you config XML with that snupped of code):
+#
+# <config-repos>
+#   <config-repo pluginId="yaml.config.plugin" id="my-project-with-gocd-pipeline">
+#     <git url="ssh://git@github:daggerok/my-project-with-gocd-pipeline.git" />
+#   </config-repo>
+# </config-repos>
+#
+# see more example:
+# - https://github.com/tomzo/gocd-yaml-config-plugin/tree/master/src/test/resources/examples
+#
+###
+
+pipelines:
+  my-project-with-gocd-pipeline:
+    group: my-projects
+    materials:
+      my-project-with-gocd-pipeline-github-repository:
+        git: ssh://git@github.com:daggerok/my-project-with-gocd-pipeline.git
+        auto_update: true
+    stages:
+    - test:
+        # tab after `test` ket of map here is important!
+        jobs:
+          clean-build-run-and-test:
+            # resources must pre-be defined so proper agents exists and will execute matched pipeline
+            resources:
+            - oraclejdk8
+            - docker
+            tasks:
+            - exec:
+                # tab after `exec` key of map here is important!
+                command: ./gradlew
+            - exec:
+                command: docker
+                arguments:
+                - "build --no-cache -t daggerok/my-project:latest -f ./path/to/Dockerfile ."
+            - exec:
+                command: bash
+                arguments:
+                - -c
+                - "java -jar ./build/libs/*.java"
