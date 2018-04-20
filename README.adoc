@@ -1,3 +1,5 @@
 = convert-travis-ci-to-gocd
 
-This repository demonstrates simple migration from Travis CI to GoCD
+This repository demonstrates how easily could be migration from Travis CI to GoCD.
+Travis CI build config as usual is: `./travis.yml` file.
+GoCD pipeline config (in YAML format) is: `./pipelines/ci.gocd.yaml`
