@@ -1,0 +1,19 @@
+env:
+  global:
+  - TERM=dumb
+
+service:
+- docker
+
+language: java
+jdk: oraclejdk8
+
+install: true
+before_install:
+- sudo apt -y update || true >/dev/null 2>&1
+- sudo apt install -y --no-install-recommends docker-ce >/dev/null 2>&1
+
+script:
+- ./gradlew
+- docker build --no-cache -t daggerok/my-project:latest -f ./path/to/Dockerfile .
+- bash -c "java -jar ./build/libs/*.jar"
