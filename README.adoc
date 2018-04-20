@@ -1,0 +1,3 @@
+= convert-travis-ci-to-gocd
+
+This repository demonstrates simple migration from Travis CI to GoCD
